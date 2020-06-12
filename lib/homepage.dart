@@ -5,6 +5,7 @@ import 'card_content.dart';
 
 const bottomContainerHeight = 80.0;
 const activeCardColor = Color(0xFF1D1E33);
+const inactiveCardColor = Color(0xFF111328);
 const bottomContainerColor = Color(0xFFEB1555);
 
 class MyHomePage extends StatefulWidget {
@@ -13,6 +14,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Color maleCardColor = inactiveCardColor;
+  Color femaleCardColor = inactiveCardColor;
+
+  void updateColor(int gender) {
+    if (gender == 1) {
+      maleCardColor = maleCardColor == inactiveCardColor
+          ? activeCardColor
+          : inactiveCardColor;
+      femaleCardColor = inactiveCardColor;
+    } else {
+      femaleCardColor = femaleCardColor == inactiveCardColor
+          ? activeCardColor
+          : inactiveCardColor;
+      maleCardColor = inactiveCardColor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,21 +43,34 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: ReusableCard(
-                    colour: activeCardColor,
-                    cardChild: CardContent(
-                      cardIcon: FontAwesomeIcons.male,
-                      cardIconText: 'MALE',
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        updateColor(1);
+                      });
+                    },
+                    child: ReusableCard(
+                      colour: maleCardColor,
+                      cardChild: CardContent(
+                        cardIcon: FontAwesomeIcons.male,
+                        cardIconText: 'MALE',
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: ReusableCard(
-                    colour: activeCardColor,
-                    cardChild: CardContent(
-                      cardIcon: FontAwesomeIcons.female,
-                      cardIconText: 'FEMALE',
-                    )
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        updateColor(2);
+                      });
+                    },
+                    child: ReusableCard(
+                        colour: femaleCardColor,
+                        cardChild: CardContent(
+                          cardIcon: FontAwesomeIcons.female,
+                          cardIconText: 'FEMALE',
+                        )),
                   ),
                 ),
               ],
@@ -77,5 +108,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
