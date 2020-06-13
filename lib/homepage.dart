@@ -1,7 +1,10 @@
+import 'package:bmi_calculator/bmi_calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'card.dart';
 import 'card_content.dart';
+import 'result_page.dart';
+import 'bottom_button.dart';
 import 'constants.dart';
 
 enum Gender { male, female }
@@ -128,8 +131,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            RoundIconButton(icon: FontAwesomeIcons.minus),
-                            RoundIconButton(icon: FontAwesomeIcons.plus),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                            ),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -153,8 +170,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            RoundIconButton(icon: FontAwesomeIcons.minus),
-                            RoundIconButton(icon: FontAwesomeIcons.plus),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  age--;
+                                });
+                              },
+                            ),
+                            RoundIconButton(
+                              onPressed: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                              icon: FontAwesomeIcons.plus,
+                            ),
                           ],
                         ),
                       ],
@@ -164,12 +195,24 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10.0),
-            height: kBottomContainerHeight,
-            width: double.infinity,
-          )
+          BottomButton(
+            buttonText: 'CALCULATE',
+            onPressed: () {
+              BMICalculator bmiCalculator =
+                  BMICalculator(height: height, weight: weight);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultPage(
+                    bmi: bmiCalculator.calculateBMI(),
+                    bmiInterpretation: bmiCalculator.getBMIInterpretation(),
+                    bmiResult: bmiCalculator.getBMIResult(),
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -178,14 +221,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class RoundIconButton extends StatelessWidget {
   @override
-  RoundIconButton({this.icon});
+  RoundIconButton(
+      {@required this.icon, @required this.onPressed, this.onLongPressed});
 
   final IconData icon;
+  final Function onPressed;
+  final Function onLongPressed;
 
   Widget build(BuildContext context) {
     return RawMaterialButton(
       child: Center(child: Icon(icon, size: 15.0)),
-      onPressed: () {},
+      onPressed: onPressed,
+      onLongPress: onLongPressed,
       shape: CircleBorder(),
       fillColor: Color(0xFF4C4F5E),
       elevation: 7.0,
