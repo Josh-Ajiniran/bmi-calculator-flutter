@@ -14,6 +14,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Gender selectedGender;
   int height = 180;
+  int weight = 74;
+  int age = 45;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ReusableCard(
               colour: kActiveCardColor,
               cardChild: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
                     'HEIGHT',
@@ -82,9 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                      thumbShape:
+                          RoundSliderThumbShape(enabledThumbRadius: 15.0),
                       thumbColor: Color(0xFFEB1555),
-                      overlayShape: RoundSliderOverlayShape(overlayRadius: 24.0),
+                      overlayShape:
+                          RoundSliderOverlayShape(overlayRadius: 24.0),
                       overlayColor: Color(0x55EB1555),
                       activeTrackColor: Colors.white,
                       inactiveTrackColor: Color(0xFF8D8E98),
@@ -110,11 +114,51 @@ class _MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          'WEIGHT',
+                          style: kCardTextStyle,
+                        ),
+                        Text(
+                          weight.toString(),
+                          style: kCardNumberStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            RoundIconButton(icon: FontAwesomeIcons.minus),
+                            RoundIconButton(icon: FontAwesomeIcons.plus),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          'AGE',
+                          style: kCardTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kCardNumberStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            RoundIconButton(icon: FontAwesomeIcons.minus),
+                            RoundIconButton(icon: FontAwesomeIcons.plus),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -128,6 +172,24 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  @override
+  RoundIconButton({this.icon});
+
+  final IconData icon;
+
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      child: Center(child: Icon(icon, size: 15.0)),
+      onPressed: () {},
+      shape: CircleBorder(),
+      fillColor: Color(0xFF4C4F5E),
+      elevation: 7.0,
+      constraints: BoxConstraints(minHeight: 56.0, minWidth: 56.0),
     );
   }
 }
